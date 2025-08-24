@@ -1,0 +1,62 @@
+name: Deploy AI Surveillance System
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run basic tests
+      run: |
+        python -c "import torch; print('PyTorch version:', torch.__version__)"
+        python -c "import cv2; print('OpenCV version:', cv2.__version__)"
+        python -c "import streamlit; print('Streamlit version:', streamlit.__version__)"
+        python -c "import ultralytics; print('Ultralytics version:', ultralytics.__version__)"
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t ai-surveillance-system .
+    
+    - name: Test Docker image
+      run: |
+        docker run --rm -d --name test-container -p 8501:8501 ai-surveillance-system
+        sleep 30
+        curl -f http://localhost:8501/_stcore/health || exit 1
+        docker stop test-container
+
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to production
+      run: |
+        echo "🚀 Ready for production deployment!"
+        echo "Docker image built and tested successfully"
