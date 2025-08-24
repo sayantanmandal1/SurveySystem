@@ -1,12 +1,12 @@
-# Use Python 3.9 slim image as base
-FROM python:3.9-slim
+# Use Python 3.9 slim image as base (pin to bullseye for stability)
+FROM python:3.9-slim-bullseye
 
 # Set working directory
 WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
@@ -42,7 +42,7 @@ HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV STREAMLIT_SERVER_PORT=8501
-ENV STREAMLIT_SERVER_ADDRESS=localhost
+ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 
 # Run Streamlit app
-CMD ["streamlit", "run", "src/dashboard/app.py", "--server.port=8501", "--server.address=localhost"]
+CMD ["streamlit", "run", "src/dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
