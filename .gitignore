@@ -122,14 +122,14 @@ dmypy.json
 
 # Machine Learning / AI specific
 *.pth
-*.pkl
+
 *.h5
 *.hdf5
 *.onnx
 *.pb
 *.tflite
-*.pt
-models/
+
+
 checkpoints/
 logs/
 runs/
@@ -140,7 +140,7 @@ mlruns/
 data/
 datasets/
 *.csv
-*.json
+
 *.parquet
 *.feather
 *.h5

@@ -1,0 +1,13 @@
+{
+  "evaluation_timestamp": "2025-08-23T17:17:43",
+  "datasets_evaluated": [],
+  "results": {},
+  "system_config": {
+    "detection_model": "YOLOv8",
+    "anomaly_types": [
+      "loitering",
+      "object_abandonment",
+      "unusual_movement"
+    ]
+  }
+}

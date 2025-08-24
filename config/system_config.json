@@ -1,0 +1,21 @@
+{
+  "yolo": {
+    "model_path": "yolov8n.pt",
+    "confidence": 0.5,
+    "iou_threshold": 0.45
+  },
+  "anomaly": {
+    "loitering_threshold": 30,
+    "abandonment_threshold": 15,
+    "movement_threshold": 0.1
+  },
+  "alerts": {
+    "save_path": "data/alerts.json",
+    "dashboard_update": true
+  },
+  "video": {
+    "output_fps": 30,
+    "resize_width": 1280,
+    "resize_height": 720
+  }
+}
